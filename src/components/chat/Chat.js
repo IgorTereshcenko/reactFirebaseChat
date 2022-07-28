@@ -1,27 +1,20 @@
 import './chat.scss';
-import { useEffect, useState } from 'react';
-import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
+import { useState } from 'react';
 import { collection, addDoc, query,orderBy, serverTimestamp } from "firebase/firestore";
 import {useAuthState} from "react-firebase-hooks/auth";
 import { useCollectionData} from "react-firebase-hooks/firestore";
-import { getAuth } from 'firebase/auth'; 
-import { db } from '../..';
-
-
+import { db } from '../../firebaseConfig';
+import { auth } from '../../firebaseConfig';
 
 const Chat = () => {
 
-    const auth = getAuth();
-    const [user] = useAuthState(auth);
+    let [user] = useAuthState(auth);
     const messagesColection = collection(db, "messages")
     const queryMessages = query(messagesColection, orderBy("createdAt"));
     const [messages, loading] = query(useCollectionData(queryMessages, orderBy('createdAt')))
     const [value, setValue] = useState('')
-    const [img, setImg] = useState('')
-    const [viewImg, setViewImg] = useState('')
-    console.log(viewImg)
-    const storage = getStorage()
-    const storageRef = ref(storage, `newfolder/${img}`);
+    console.log(auth);
+    console.log(user);
      
     const sendMessage = async () => {
           await addDoc(messagesColection, {
@@ -30,17 +23,8 @@ const Chat = () => {
                 photoURL: user.photoURL,
                 text: value,
                 createdAt: serverTimestamp(),
-                img,
-                viewImg
         });
         
-        /* uploadBytes(storageRef)
-            .then(getDownloadURL(storageRef))
-            .then((url) => {
-                console.log(url);
-                setViewImg(url)
-            }); */
-
         setValue('');
     }
 
@@ -66,7 +50,6 @@ const Chat = () => {
                                 <img src={item.photoURL} alt={item.photoURL} className="chat__photo" />
                             </div>
                             <div className={user.uid === item.uid ? 'chat__text chat__text_right' : 'chat__text'}>{item.text}</div>
-                           {/*  <img src={item.viewImg} alt="" className="chat__file" /> */}
                         </div> 
                     )   
                 })}                  
@@ -81,13 +64,7 @@ const Chat = () => {
                 onChange = {e => setValue(e.target.value)}
                 onKeyDown = {onKeyPressed}
                 />
-           {/*  <input 
-                type="file" 
-                className="chat__file"
-                value={img}
-                onChange={e => setImg(e.target.value)}/> */}
             <button onClick={sendMessage} className="chat__btn">отправить</button>
-            
         </div>
     )
 }
