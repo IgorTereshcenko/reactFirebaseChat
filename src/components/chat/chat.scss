@@ -1,18 +1,20 @@
 .chat {
-    position: relative;
+    padding-top: 10px;
     padding-bottom: 20px;
     &__messages {
+        margin-left: 20px;
+        position: relative;
         margin-top: 40px;
-        margin-left: 40px;
-        width: 767px;
-        min-height: 100px;
+        width: 90%;
+        height: 70vh;
+        overflow-y: auto;
         background: #FDFDFF;
         border: 1px solid #E1E2FF;
         border-radius: 20px;
     }
     &__input {
         margin-top: 20px;
-        margin-left: 40px;
+        margin-left: 133px;
         width: 706px;
         height: 57px;
         background: #FFFFFF;
@@ -44,9 +46,10 @@
         display: flex;
         align-items:center;
         gap: 10px;
+        margin-left: auto;
     }
     &__message_right {
-        padding-left: 292px;
+        margin-left: 558px;
         padding-bottom: 20px;
     }
     &__photo {
@@ -56,8 +59,7 @@
         height: 30px;
     }
     &__text {
-        min-width: 362px;
-        min-height: 57px;
+        width: fit-content;
         background: #FFFFFF;
         border: 1px solid #A5A6F6;
         border-radius: 10px;
@@ -92,10 +94,9 @@
         justify-content: center;
     }
     &__exit {
-        position: fixed;
-        left: 826px;
         width: 135px;
         height: 48px;
+        margin-left: 20px;
         background: #3C2A8F;
         border-radius: 4px;
         border:none;
@@ -117,4 +118,54 @@
         
     }
 
+}
+
+@media (max-width: 992px) {
+    .chat {
+        &__messages {
+            margin-left: 20px;
+        }
+        &__input {
+            width: 553px;
+            margin-left: 18px;
+        }
+        &__message_right {
+            margin-left: 329px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .chat {
+        &__input {
+            width: 364px;
+        }
+        &__messages {
+            margin-left: 20px;
+        }
+        &__message_right {
+            margin-left: 200px;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .chat {
+        &__messages {
+            width: 100vh;
+            margin-left: 0px;
+        }
+        &__input {
+            width: 100vh;
+        }
+        &__btn {
+            width: 101px;
+            height: 38px;
+            margin-top: 10px;
+            margin-left: 451px;
+        }
+        &__message_right {
+           margin-left: 62px;
+        }
+    }
 }

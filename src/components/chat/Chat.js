@@ -5,6 +5,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import { useCollectionData} from "react-firebase-hooks/firestore";
 import { db } from '../../firebaseConfig';
 import { auth } from '../../firebaseConfig';
+import Loader from '../loader/Loader';
 
 const Chat = () => {
 
@@ -13,9 +14,7 @@ const Chat = () => {
     const queryMessages = query(messagesColection, orderBy("createdAt"));
     const [messages, loading] = query(useCollectionData(queryMessages, orderBy('createdAt')))
     const [value, setValue] = useState('')
-    console.log(auth);
-    console.log(user);
-     
+    
     const sendMessage = async () => {
           await addDoc(messagesColection, {
                 uid: user.uid,
@@ -29,7 +28,7 @@ const Chat = () => {
     }
 
     if (loading) {
-        return <h2>загрузка</h2>
+        return <Loader/>
     }
 
     const onKeyPressed = (e) => {
@@ -40,7 +39,9 @@ const Chat = () => {
 
     return (
         <div className="chat">
-            <button onClick={() => auth.signOut()} className="chat__exit">Выйти</button>
+            <div className="chat__btnWrapper">
+                    <button onClick={() => auth.signOut()} className="chat__exit">Выйти</button> 
+                </div>
             <div className="chat__messages">
                 {messages.map(item => {
                     return (
@@ -49,11 +50,11 @@ const Chat = () => {
                                 <div className="chat__name">{item.displayName}</div>
                                 <img src={item.photoURL} alt={item.photoURL} className="chat__photo" />
                             </div>
-                            <div className={user.uid === item.uid ? 'chat__text chat__text_right' : 'chat__text'}>{item.text}</div>
+                            <div className={user.uid === item.uid ? 'chat__text chat__text_right' : 'chat__text'}>{item.text}</div> 
                         </div> 
                     )   
-                })}                  
-            </div>
+                })}              
+            </div>   
             <div className="chat__typing">
                 {value ? `${user.displayName} набирает сообщение...` : null}
             </div>
@@ -65,6 +66,7 @@ const Chat = () => {
                 onKeyDown = {onKeyPressed}
                 />
             <button onClick={sendMessage} className="chat__btn">отправить</button>
+              
         </div>
     )
 }
