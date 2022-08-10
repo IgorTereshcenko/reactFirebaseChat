@@ -1,6 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import {useAuthState} from "react-firebase-hooks/auth";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import MemoChat from './components/chat/Chat';
 import Chat from './components/chat/Chat';
 import Login from './components/login/Login';
 
